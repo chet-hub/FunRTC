@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FunRTC</title>
+    <script src="FunRTC.js"></script>
+    <script>
+        /**
+         * Ajax request
+         * @param url
+         * @param str
+         * @returns {Promise<unknown>}
+         * @constructor
+         * Example
+         *  PostData('//localhost:8080/msg', "jsonString").then(console.log);
+         */
+        function PostData(url, str) {
+            return new Promise((ok, error) => {
+                const xhr = new XMLHttpRequest();
+                xhr.onload = () => {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        ok(xhr.responseText);
+                    } else {
+                        error(xhr.status + ":" + xhr.statusText)
+                    }
+                }
+                xhr.open('POST', url, true);
+                xhr.setRequestHeader('Content-Type', 'text/plain');
+                xhr.send(str);
+            })
+        }
+    </script>
+</head>
+<body>
+
+<div>
+    <pre>
+
+
+Example - Js connect js in one page
+
+        // Copy and paste the js codes in your Chrome console
+        let applyPaper = await FunRTC.ToConnect("B")
+                        let approvePaper = await FunRTC.Accept("A",applyPaper)
+        await FunRTC.DoConnect("B",approvePaper)
+
+        applyPaper = await FunRTC.ToConnect("C")
+                        approvePaper = await FunRTC.Accept("B",applyPaper)
+        await FunRTC.DoConnect("C",approvePaper)
+
+        //after the connect established
+        FunRTC.Send("B","Hi B")
+                        FunRTC.Send("A","Hi A")
+        FunRTC.Send("C","Hi C")
+
+
+Example - Js connect golang
+
+        // go test -run TestConnection_as_Client
+
+        // Copy and paste the js codes in your Chrome console
+        let applyPaper = await FunRTC.ToConnect("Golang server")
+        const approvePaper = await PostData('//localhost:8080/msg', applyPaper)
+        await FunRTC.DoConnect("Golang server", approvePaper)
+
+Example - golang connect js
+
+        // go test -run TestConnection_as_Server
+
+        // Copy and paste the js codes in your Chrome console
+        const applyPaper = await PostData('//localhost:8080/msg', "getApplyPaper")
+        const approvePaper = await FunRTC.Accept("golang client",applyPaper)
+        const connect = await PostData('//localhost:8080/msg', approvePaper)
+
+    </pre>
+</div>
+
+
+</body>
+</html>

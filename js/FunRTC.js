@@ -1,4 +1,3 @@
-
 function Connection(config, onCreateDataChannelFunction, onConnectionstatechangeFunction) {
     let Configuration = (config === undefined) ? {
         iceServers: [
@@ -29,9 +28,9 @@ function Connection(config, onCreateDataChannelFunction, onConnectionstatechange
             channel.onclose = () => console.log('channel has closed')
             channel.onopen = () => {
                 console.log('channel opened')
-                setInterval(() => {
-                    channel.send(Math.random())
-                }, 2000);
+                // setInterval(() => {
+                //     channel.send(Math.random())
+                // }, 2000);
             }
             channel.onmessage = (e) => {
                 console.log(`Message from '${channel.id}' : '${e.data}'`)
@@ -111,17 +110,17 @@ const newConnection = (name, configuration, onCreateDataChannelFun, onConnection
 }
 
 const FunRTC = {
-    ToConnect: (name, configuration, onCreateDataChannelFun, onConnectionstatechangeFun) => {
+    ToConnect: (name, onCreateDataChannelFun, onConnectionstatechangeFun, configuration) => {
         const con = newConnection(name, configuration, onCreateDataChannelFun, onConnectionstatechangeFun)
         connections[name] = con
         return con.Apply()
     },
-    Accept: (name, remoteApplyString, configuration, onCreateDataChannelFun, onConnectionstatechangeFun) => {
+    Accept: (name, remoteApplyString, onCreateDataChannelFun, onConnectionstatechangeFun, configuration) => {
         let con = newConnection(name, configuration, onCreateDataChannelFun, onConnectionstatechangeFun)
         connections[name] = con
         return con.Approve(remoteApplyString)
     },
-    DoConnect: (name,remoteApproveString) => {
+    DoConnect: (name, remoteApproveString) => {
         return connections[name].Connect(remoteApproveString)
     },
     /**
@@ -131,7 +130,7 @@ const FunRTC = {
      send(data: ArrayBufferView): void;
      * @param data
      */
-    Send: (name,data) => {
+    Send: (name, data) => {
         connections[name].Send(data)
     },
     Close: (name) => {

@@ -70,13 +70,30 @@ func DoConnect(name string, remoteApprove string) error {
 }
 
 func SendText(name string, text string) error {
+	if connectMap[name] != nil {
+		return errors.New("please use a different name")
+	}
 	return connectMap[name].DataChannel.SendText(text)
 }
 
 func Send(name string, data []byte) error {
+	if connectMap[name] != nil {
+		return errors.New("please use a different name")
+	}
 	return connectMap[name].DataChannel.Send(data)
 }
 
 func Close(name string) error {
-	return connectMap[name].DataChannel.Close()
+	if connectMap[name] != nil {
+		return errors.New("please use a different name")
+	}
+	e := connectMap[name].DataChannel.Close()
+	if e != nil {
+		return e
+	}
+	e = connectMap[name].PeerConnection.Close()
+	if e != nil {
+		return e
+	}
+	return nil
 }

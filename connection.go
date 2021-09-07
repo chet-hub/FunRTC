@@ -48,7 +48,6 @@ func new(OnCreateDataChannelFunc func(*webrtc.DataChannel),
 			return nil, e
 		}
 	}
-
 	var Con = connection{
 		IsServer:       nil,
 		Configuration:  WebRTCConfig,
@@ -75,37 +74,17 @@ func new(OnCreateDataChannelFunc func(*webrtc.DataChannel),
 	if OnConnectionStateChangeFunc != nil {
 		Con.OnConnectionStateChange = OnConnectionStateChangeFunc
 	}
-
 	if OnCreateDataChannelFunc != nil {
 		Con.OnCreateDataChannel = OnCreateDataChannelFunc
 	}
-
-	// Create a new RTCPeerConnection
 	peerConnection, err := webrtc.NewPeerConnection(Con.Configuration)
 	if err != nil {
 		return nil, err
 	}
 	Con.PeerConnection = peerConnection
-
-	//defer func() {
-	//	if cErr := PeerConnection.Close(); cErr != nil {
-	//		fmt.Printf("cannot close PeerConnection: %v\n", cErr)
-	//	}
-	//}()
-
-	// Set the handler for Peer connection state
-	// This will notify you when the peer has connected/disconnected
 	peerConnection.OnConnectionStateChange(func(s webrtc.PeerConnectionState) {
 		Con.OnConnectionStateChange(s)
-		//if s == webrtc.PeerConnectionStateFailed {
-		//	// Wait until PeerConnection has had no network activity for 30 seconds or another failure. It may be reconnected using an ICE Restart.
-		//	// Use webrtc.PeerConnectionStateDisconnected if you are interested in detecting faster timeout.
-		//	// Note that the PeerConnection may come back from PeerConnectionStateDisconnected.
-		//	fmt.Println("Peer connection has gone to failed exiting")
-		//	os.Exit(0)
-		//}
 	})
-
 	return &Con, nil
 }
 
@@ -157,33 +136,22 @@ func (Con *connection) approve(applyString string) (string, error) {
 			Con.OnCreateDataChannel(channel)
 		})
 	}
-
 	offer := webrtc.SessionDescription{}
 	utils.Decode(applyString, &offer)
-
-	// Set the remote SessionDescription
 	err := Con.PeerConnection.SetRemoteDescription(offer)
 	if err != nil {
-		return "",err
+		return "", err
 	}
-	// Create an answer
 	answer, err := Con.PeerConnection.CreateAnswer(nil)
 	if err != nil {
-		return "",err
+		return "", err
 	}
-	// Create channel that is blocked until ICE Gathering is complete
 	gatherComplete := webrtc.GatheringCompletePromise(Con.PeerConnection)
-	// Sets the LocalDescription, and starts our UDP listeners
 	err = Con.PeerConnection.SetLocalDescription(answer)
 	if err != nil {
-		return "",err
+		return "", err
 	}
-	// Block until ICE Gathering is complete, disabling trickle ICE
-	// we do this because we only can exchange one signaling message
-	// in a production application you should exchange ICE Candidates via OnICECandidate
 	<-gatherComplete
-	// Output the answer in base64 so we can paste it in browser
 	var approveString = utils.Encode(Con.PeerConnection.LocalDescription())
-	return approveString,nil
+	return approveString, nil
 }
-
