@@ -1,7 +1,8 @@
+![loading gif](https://raw.githubusercontent.com/chet-hub/chet-hub.github.io/main/FunRTC/FunRTC.gif)
+
 # What
 
-Three lines codes to communicate with people in the way of P2P - Having fun to Play 
-with WebRTC
+`Three lines codes to communicate with people in the way of P2P - Having fun to Play with WebRTC`
 
 ```javascript
 //Tom want to communicate with Lily, so he call ToConnect to generate a applying letter
@@ -27,8 +28,8 @@ let applying_letter_for_Olivia = await FunRTC.ToConnect("Olivia")
 
 # Why
 
-The most amazon feature of WebRTC is P2P - users can connect each other directly. 
-However, the p2p connection required the help of signaling server to set up - The p2p 
+The most amazon feature of WebRTC is P2P - users can connect each other directly.
+However, the p2p connection required the help of signaling server to set up - The p2p
 users need to exchange their SDP, icecandidate and other information. This project, based
 the webrtc specification, abstracts the interfaces to achieve pure p2p.
 
@@ -56,7 +57,7 @@ func Close(name string) error
 ```
 
 # Play the examples
-check out the html - https://github.com/chet-hub/FunRTC/index.html
+`check out the html - https://chet-hub.github.io/FunRTC/`
 
 * Example - Js connect js in one page
 ```javascript
