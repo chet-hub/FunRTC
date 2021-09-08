@@ -5,13 +5,13 @@
 `Three lines codes to communicate with people in the way of P2P - Having fun to Play with WebRTC`
 
 ```javascript
-//Tom want to communicate with Lily, so he call ToConnect to generate a applying letter
+//Tom wants to communicate with Lily, so he calls ToConnect to generate a applying letter
 let applying_letter = await FunRTC.ToConnect("Lily")
-                        //Lily knew Tom want to communicate with her, and got the applying 
-                        //letter from Tom in her Messenger or Email. She called the Accept  
+                        //Lily know Tom want to communicate with her, and get the applying 
+                        //letter from Tom in her Messenger or Email. She call the Accept  
                         //method to approve Tom's applying and get the approve letter
                         let approval_letter = await FunRTC.Accept("Tom",applying_letter)
-//Tom got the approval letter from Lily and call DoConnect to establish a connection to Lily
+//Tom gets the approval letter from Lily and calls DoConnect to establish a connection to Lily
 let success = await FunRTC.DoConnect("Lily",approval_letter)
 
 //Now, they can text each other directly without any middle service
@@ -21,7 +21,7 @@ FunRTC.Send("Lily","Hi Lily, how are you.")
                         FunRTC.Send("Tom","Hi Tom.")
 
 //....
-//Tom thought another frend named Olivia
+//Tom think another frend named Olivia
 let applying_letter_for_Olivia = await FunRTC.ToConnect("Olivia")
 //That's another story...
 ```
@@ -29,7 +29,7 @@ let applying_letter_for_Olivia = await FunRTC.ToConnect("Olivia")
 # Why
 
 The most amazon feature of WebRTC is P2P - users can connect each other directly.
-However, the p2p connection required the help of signaling server to set up - The p2p
+However, the p2p connection required the help of signaling server to set up - the p2p
 users need to exchange their SDP, icecandidate and other information. This project, based
 the webrtc specification, abstracts the interfaces to achieve pure p2p.
 
