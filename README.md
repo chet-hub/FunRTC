@@ -11,7 +11,7 @@ let applying_letter = await FunRTC.ToConnect("Lily")
                         //method to approve Tom's applying and get the approve letter
                         let approval_letter = await FunRTC.Accept("Tom",applying_letter)
 //Tom got the approval letter from Lily and call DoConnect to establish a connection to Lily
-let success = await FunRTC.DoConnect("Lily",approvePaper)
+let success = await FunRTC.DoConnect("Lily",approval_letter)
 
 //Now, they can text each other directly without any middle service
 //Tom send a message to Lily
