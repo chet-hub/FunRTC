@@ -18,8 +18,6 @@ let success = await FunRTC.DoConnect("Lily",approvePaper)
 FunRTC.Send("Lily","Hi Lily, how are you.")
                         //Lily got the message and reply 
                         FunRTC.Send("Tom","Hi Tom.")
-//Tom want to communicate with Lily, so he call ToConnect to generate a applying letter
-let applying_letter = await FunRTC.ToConnect("Lily")
 
 //....
 //Tom thought another frend named Olivia
@@ -29,7 +27,7 @@ let applying_letter_for_Olivia = await FunRTC.ToConnect("Olivia")
 
 # Why
 
-The most amazon feature of WebRTC is P2P - uses can connect each other directly. 
+The most amazon feature of WebRTC is P2P - users can connect each other directly. 
 However, the p2p connection required the help of signaling server to set up - The p2p 
 users need to exchange their SDP, icecandidate and other information. This project, based
 the webrtc specification, abstracts the interfaces to achieve pure p2p.
@@ -58,7 +56,7 @@ func Close(name string) error
 ```
 
 # Play the examples
-check out the html - https://github.com/chet-hub/FunRTC/blob/main/js/example.html
+check out the html - https://github.com/chet-hub/FunRTC/index.html
 
 * Example - Js connect js in one page
 ```javascript
